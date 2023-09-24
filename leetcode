@@ -1,0 +1,128 @@
+
+class Solution {
+public:
+   void inorder(TreeNode* root, vector<int> &ans){
+       //base case
+       if(root==NULL)
+          return ;
+        
+        // left call
+        inorder(root->left, ans);
+        //store the value in ans
+        ans.push_back(root->val);
+
+        //right call
+        inorder(root->right, ans);
+
+   }
+
+
+
+    vector<int> inorderTraversal(TreeNode* root) {
+       
+        // here we create a vector
+        vector<int> ans;
+       
+       //inorder funtion is made
+        inorder(root, ans);
+       
+        //return ans 
+        return ans;
+
+        
+
+        
+        
+    }
+};
+
+class Solution {
+public:
+    int numTrees(int n) {
+        if(n <= 1) return 1;
+        int ans = 0;
+        for(int i = 1; i <= n; i++) 
+            ans += numTrees(i-1) * numTrees(n-i);
+        return ans;
+    }
+};
+
+
+class Solution {
+public:
+   void inorder(TreeNode*root, vector<int> &v){
+       if(root ==NULL){
+           return ;
+       }
+       inorder(root->left,v);
+       v.push_back(root->val);
+       inorder(root->right , v);
+   }
+
+    bool isValidBST(TreeNode* root) {
+
+       vector<int>v;
+       inorder(root, v);
+       for(int i=1;i<v.size();i++){
+           if(v[i]<=v[i-1]){
+               return false;
+           }
+       }
+       return true;
+        
+    }
+};
+
+
+class Solution {
+public:
+bool helper(TreeNode*p, TreeNode*q){
+    if(p == NULL && q==NULL){
+            return true;
+        }
+        else if(p == NULL && q!=NULL){
+            return false;
+        }
+        else if(p!=NULL && q==NULL){
+            return false;
+        }
+        else{
+            bool l = helper(p->left,q->left);
+            bool r = helper(p->right , q->right);
+            return (p->val == q->val) && l && r;
+            
+        }
+}
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        return helper(p,q);
+        
+        
+    }
+};
+
+
+
+
+
+class Solution {
+public:
+    bool isEqual(TreeNode*r1,TreeNode*r2){
+        //if we have both root to nullptr then we will return true
+        //else we will be returning false
+        
+        if(!r1||!r2)
+            return r1==r2;
+        //if not null then we will check for the r1 and r2 values
+        if(r1->val==r2->val){
+        //we will check for the r1 left and r2 right because they will be on opposite sides
+            return isEqual(r1->left,r2->right)&&isEqual(r1->right,r2->left);
+        }
+        //if r1 val not equal to r2 val then return false
+        return false;
+    }
+    bool isSymmetric(TreeNode* root) {
+        //The Approach is simple i.e. we will have to check if 
+            //1. the right and left is equal 
+        return isEqual(root->left,root->right);
+    }
+};
