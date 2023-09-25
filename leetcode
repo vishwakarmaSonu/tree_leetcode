@@ -126,3 +126,86 @@ public:
         return isEqual(root->left,root->right);
     }
 };
+
+
+
+class Solution {
+public:
+vector<vector<int>> fun(TreeNode*root){
+vector<vector<int>> ans;
+if(root==nullptr) return ans;
+queue<TreeNode*>q;
+q.push(root);
+while(!q.empty()){
+    int size = q.size();
+    vector<int> vec;
+    while(size--){
+        TreeNode* news = q.front();
+        q.pop();
+        vec.push_back(news->val);
+        if(news->left){
+            q.push(news->left);
+        }
+        if(news->right){
+            q.push(news->right);
+        }
+
+    }
+      ans.push_back(vec);
+  
+}
+return ans;
+
+}
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>>result  = fun(root);
+
+        //reversing sub vector which we got from level order traversal
+
+        for(int i =1; i<result.size(); i+=2){
+            reverse(result[i].begin(), result[i].end());
+
+        }
+        return result;
+        
+    }
+};
+
+
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+     if(!root)
+            return 0;
+        if(!root->left)
+            return 1 + maxDepth(root->right);
+        if(!root->right)
+            return 1 + maxDepth(root->left);
+        return 1 + max(maxDepth(root->right), maxDepth(root->left)); 
+
+        
+    }
+};
+
+
+
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+		int n = inorder.size();
+        int Idx = 0;
+        return helper(preorder, inorder, Idx, 0, n-1);
+    }
+    
+    TreeNode* helper(vector<int>& preorder, vector<int>& inorder, int& Idx, int left, int right) {
+        if (left > right) return NULL;
+        int pivot = left;  // find the root from inorder
+        while(inorder[pivot] != preorder[Idx]) pivot++;
+        
+        Idx++;
+        TreeNode* newNode = new TreeNode(inorder[pivot]);
+        newNode->left = helper(preorder, inorder, Idx, left, pivot-1);
+        newNode->right = helper(preorder, inorder, Idx, pivot+1, right);
+        return newNode;
+    }
+};
