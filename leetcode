@@ -209,3 +209,40 @@ public:
         return newNode;
     }
 };
+
+
+
+
+7/10/23
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+
+       set<char>set;
+       int max=0,start =0,end =0;
+
+       while(start<s.size()){
+
+           auto it = set.find(s[start]);   // find the char in set
+           if(it ==set.end()){      // if not found
+               if(start-end+1>max){     // counting the max value;
+                   max =start-end+1;
+
+               }
+
+               set.insert(s[start]);  //insert the char into set
+               start++;
+
+           }
+
+           else{
+               set.erase(s[end]);   //erase the first char and move toward ahead
+               end++;
+           }
+       }
+
+       return max;
+        
+    }
+};
